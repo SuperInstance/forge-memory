@@ -1,0 +1,16 @@
+[package]
+name = "forge-memory"
+version = "0.1.0"
+edition = "2021"
+description = "External tile memory store for Plato agents"
+license = "MIT"
+
+[dependencies]
+sled = "0.34"
+bincode = "1.3"
+serde = { version = "1", features = ["derive"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+sha2 = "0.10"
+
+[dev-dependencies]
+tempfile = "3"
