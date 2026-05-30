@@ -188,8 +188,7 @@ impl TileStore {
                 // Use query hash as pseudo-embedding for deterministic scoring
                 let pseudo_emb: Vec<f32> = query_hash.iter()
                     .take(tile.embedding.len().min(query_hash.len()))
-                    .enumerate()
-                    .map(|(i, &b)| (b as f32) / 255.0)
+                    .map(|&b| (b as f32) / 255.0)
                     .collect();
                 let dot: f32 = tile.embedding.iter()
                     .take(pseudo_emb.len())
@@ -253,6 +252,7 @@ impl TileStore {
     }
 
     /// Get store statistics.
+    #[allow(clippy::manual_flatten, clippy::unnecessary_sort_by)]
     pub fn stats(&self) -> StoreStats {
         let tiles_tree = self.tiles_tree().ok();
         let total_tiles = tiles_tree.as_ref().map(|t| t.len()).unwrap_or(0) as u64;
@@ -286,6 +286,7 @@ impl TileStore {
     }
 
     /// Remove orphaned tiles (tiles whose source no longer exists).
+    #[allow(clippy::manual_flatten)]
     pub fn compact(&self) -> Result<u64, Box<dyn std::error::Error>> {
         let tiles_tree = self.tiles_tree()?;
         let source_tree = self.source_tree()?;
